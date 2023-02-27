@@ -24,7 +24,7 @@ def no_init(loading_code):
     return result
 
 
-def load_flan(name='flan-t5-xl'):
+def load_flan(name='google/flan-t5-xl'):
     def load_model():
         tokenizer = AutoTokenizer.from_pretrained(name)
 
