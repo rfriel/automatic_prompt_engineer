@@ -16,6 +16,8 @@ def get_eval_method(eval_method):
     if callable(eval_method):
         return eval_method
     if eval_method == 'likelihood':
+        if 'automatic_prompt_engineer.evaluation.likelihood' in MOD:
+            return MOD['automatic_prompt_engineer.evaluation.likelihood'].likelihood_evaluator
         import automatic_prompt_engineer.evaluation.likelihood
         MOD['automatic_prompt_engineer.evaluation.likelihood'] = automatic_prompt_engineer.evaluation.likelihood
         return automatic_prompt_engineer.evaluation.likelihood.likelihood_evaluator
