@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from automatic_prompt_engineer import llm
 
-import automatic_prompt_engineer.evaluation
+import automatic_prompt_engineer.evaluation.likelihood
 
 
 def get_eval_method(eval_method):
