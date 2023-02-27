@@ -8,6 +8,7 @@ from automatic_prompt_engineer import evaluate
 
 
 def bandits_evaluator(prompts, eval_template, eval_data, demos_template, few_shot_data, config):
+    print('in bandits_evaluator')
     base_eval_method = evaluate.get_eval_method(config['base_eval_method'])
     bandit_algo = get_bandit_algo(
         config['bandit_method'], len(prompts), config)

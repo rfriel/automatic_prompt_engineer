@@ -31,6 +31,7 @@ def get_query(prompt, eval_template, input_, output_, demo_data, demos_template)
 
 
 def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_shot_data, config):
+    print('in likelihood_evaluator')
     """
     For each prompt, evaluate the likelihood of the data (output) given the prompt.
     Parameters:
