@@ -30,7 +30,8 @@ def bandits_evaluator(prompts, eval_template, eval_data, demos_template, few_sho
         # Update the bandit algorithm
         bandit_algo.update(sampled_prompts_idx, scores)
 
-    return BanditsEvaluationResult(prompts, bandit_algo.get_scores(), bandit_algo.get_infos())
+    return BanditsEvaluationResult(prompts, bandit_algo.get_scores(), bandit_algo.get_infos()), \
+    eval_template, eval_data, demos_template, few_shot_data
 
 
 def get_bandit_algo(bandit_method, num_prompts, config):
