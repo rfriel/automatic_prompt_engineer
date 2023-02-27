@@ -73,7 +73,7 @@ def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_
 
     res = LikelihoodEvaluationResult(prompts, log_probs, config['num_samples'])
 
-    return res
+    return res, eval_template, prompts, eval_template, eval_data, demos_template, few_shot_data, config
 
 
 class LikelihoodEvaluationResult(evaluate.EvaluationResult):
