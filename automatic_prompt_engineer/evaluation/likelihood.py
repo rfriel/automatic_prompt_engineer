@@ -176,3 +176,31 @@ class LikelihoodEvaluationResult(evaluate.EvaluationResult):
         for prompt, score in list(zip(prompts, scores))[:10]:
             s += f'{score:.2f}: {prompt}\n'
         return s
+
+
+def score_likelihood(candidates,
+                     eval_template,
+                     eval_data,
+                     demos_template,
+                     few_shot_data,
+                     num_few_shot=5,
+                     method='mean',
+                     flan_ape=None,
+                     flan=True):
+    """for grips"""
+    get_query_fn, logprob_fn = None, None
+    if flan:
+        assert flan_ape is not None
+        get_query_fn = get_query_encdec
+        logprob_fn = flan_ape.log_probs
+
+    eval_config = dict(num_few_shot=num_few_shot, num_samples=len(candidates))
+
+    out = likelihood_evaluator(
+        candidates, eval_template, eval_data, demos_template, few_shot_data,
+        eval_config,
+        verbose=False,
+        get_query_fn=get_query_fn,
+        logprob_fn=logprob_fn,
+        )
+    return out._agg_likelihoods(method=method)
