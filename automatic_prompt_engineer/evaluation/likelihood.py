@@ -30,7 +30,7 @@ def get_query(prompt, eval_template, input_, output_, demo_data, demos_template)
     return query, output_idx
 
 
-def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_shot_data, config):
+def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_shot_data, config, verbose=False):
     print('in likelihood_evaluator')
     """
     For each prompt, evaluate the likelihood of the data (output) given the prompt.
@@ -52,20 +52,22 @@ def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_
             demo_data = data.subsample_data(
                 few_shot_data, config['num_few_shot'])
 
-            print('---------')
-            print(prompt)
-            print(eval_template)
-            print(input_)
-            print(output_)
-            print(demo_data)
-            print()
+            if verbose:
+                print('---------')
+                print(prompt)
+                print(eval_template)
+                print(input_)
+                print(output_)
+                print(demo_data)
+                print()
 
             query, output_idx = get_query(
                 prompt, eval_template, input_, output_, demo_data, demos_template)
             queries.append(query)
             output_indices.append(output_idx)
 
-            print(query)
+            if verbose:
+                print(query)
 
     # Instantiate the LLM
     model = llm.model_from_config(config['model'])
