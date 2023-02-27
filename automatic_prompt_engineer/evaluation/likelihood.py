@@ -185,15 +185,14 @@ def score_likelihood(candidates,
                      few_shot_data,
                      num_few_shot=5,
                      method='mean',
-                     flan_ape=None,
                      flan=True,
                      verbose=False):
     """for grips"""
     get_query_fn, logprob_fn = None, None
     if flan:
-        assert flan_ape is not None
+        import automatic_prompt_engineer.flan_singleton
+        logprob_fn = automatic_prompt_engineer.flan_singleton.FLAN_APE.log_probs
         get_query_fn = get_query_encdec
-        logprob_fn = flan_ape.log_probs
 
     eval_config = dict(num_few_shot=num_few_shot, num_samples=len(eval_data[0]))
 

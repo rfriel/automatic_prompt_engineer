@@ -5,6 +5,7 @@ from tqdm.auto import tqdm
 
 from automatic_prompt_engineer import llm
 
+FLAN_NAME = 'google/flan-t5-large'
 
 
 def no_init(loading_code):
@@ -24,7 +25,7 @@ def no_init(loading_code):
     return result
 
 
-def load_flan(name='google/flan-t5-xl'):
+def load_flan(name=FLAN_NAME):
     def load_model():
         tokenizer = AutoTokenizer.from_pretrained(name)
 
