@@ -68,6 +68,11 @@ class FlanForward(llm.LLM):
         self.bs = bs
         self.disable_tqdm = disable_tqdm
 
+    @staticmethod
+    def load(name='google/flan-t5-xl', bs=1, disable_tqdm=False):
+        model, tokenizer = load_flan(name)
+        return FlanForward(model, tokenizer, bs, disable_tqdm)
+
     def generate_text(self, prompts):
         outs = []
         for i in range(0, len(prompts), self.bs):
