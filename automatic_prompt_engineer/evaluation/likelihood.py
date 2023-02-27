@@ -50,13 +50,20 @@ def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_
             input_, output_ = d
             demo_data = data.subsample_data(
                 few_shot_data, config['num_few_shot'])
+
+            print(prompt)
+            print(eval_template)
+            print(input_)
+            print(output_)
+            print(demo_data)
+
             query, output_idx = get_query(
                 prompt, eval_template, input_, output_, demo_data, demos_template)
             queries.append(query)
             output_indices.append(output_idx)
 
     print(queries)
-    
+
     # Instantiate the LLM
     model = llm.model_from_config(config['model'])
 
