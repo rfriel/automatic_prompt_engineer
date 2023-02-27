@@ -47,7 +47,7 @@ def get_query_encdec(prompt, eval_template, input_, output_, demo_data, demos_te
                                               output="",
                                               full_demo=demos)
 
-    return query_without_output
+    return query_without_output, None
 
 
 
