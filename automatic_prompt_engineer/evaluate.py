@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 from automatic_prompt_engineer import llm
 
+import automatic_prompt_engineer.evaluation
 
 
 def get_eval_method(eval_method):
@@ -15,8 +16,7 @@ def get_eval_method(eval_method):
     if callable(eval_method):
         return eval_method
     if eval_method == 'likelihood':
-        from automatic_prompt_engineer.evaluation import likelihood
-        return likelihood.likelihood_evaluator
+        return automatic_prompt_engineer.evaluation.likelihood.likelihood_evaluator
     elif eval_method == 'bandits':
         from automatic_prompt_engineer.evaluation import bandits
         return bandits.bandits_evaluator

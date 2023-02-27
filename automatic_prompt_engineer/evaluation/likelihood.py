@@ -64,7 +64,7 @@ def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_
             queries.append(query)
             output_indices.append(output_idx)
 
-    print(queries)
+            print(query)
 
     # Instantiate the LLM
     model = llm.model_from_config(config['model'])
