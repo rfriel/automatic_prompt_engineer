@@ -186,7 +186,8 @@ def score_likelihood(candidates,
                      num_few_shot=5,
                      method='mean',
                      flan_ape=None,
-                     flan=True):
+                     flan=True,
+                     verbose=False):
     """for grips"""
     get_query_fn, logprob_fn = None, None
     if flan:
@@ -194,13 +195,13 @@ def score_likelihood(candidates,
         get_query_fn = get_query_encdec
         logprob_fn = flan_ape.log_probs
 
-    eval_config = dict(num_few_shot=num_few_shot, num_samples=len(candidates))
+    eval_config = dict(num_few_shot=num_few_shot, num_samples=len(eval_data[0]))
 
     out = likelihood_evaluator(
         candidates, eval_template, eval_data, demos_template, few_shot_data,
         eval_config,
-        verbose=False,
         get_query_fn=get_query_fn,
         logprob_fn=logprob_fn,
+        verbose=verbose,
         )
     return out._agg_likelihoods(method=method)
