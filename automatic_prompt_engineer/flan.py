@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from tqdm.auto import tqdm
 
 from automatic_prompt_engineer import llm
 
