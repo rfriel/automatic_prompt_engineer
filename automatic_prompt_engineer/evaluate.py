@@ -2,8 +2,7 @@ from abc import ABC, abstractmethod
 
 from automatic_prompt_engineer import llm
 
-import automatic_prompt_engineer.evaluation.likelihood
-
+MOD = {}
 
 def get_eval_method(eval_method):
     """
@@ -13,9 +12,12 @@ def get_eval_method(eval_method):
     Returns:
         An evaluation method object.
     """
+    global MOD
     if callable(eval_method):
         return eval_method
     if eval_method == 'likelihood':
+        import automatic_prompt_engineer.evaluation.likelihood
+        MOD['automatic_prompt_engineer.evaluation.likelihood'] = automatic_prompt_engineer.evaluation.likelihood
         return automatic_prompt_engineer.evaluation.likelihood.likelihood_evaluator
     elif eval_method == 'bandits':
         from automatic_prompt_engineer.evaluation import bandits
