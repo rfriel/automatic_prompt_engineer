@@ -15,5 +15,7 @@ setup(
         'fire',
         'tqdm',
         'gradio',
+        'transformers',
+        'accelerate'
     ],
 )
