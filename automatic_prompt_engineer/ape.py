@@ -1,5 +1,5 @@
 import random
-from automatic_prompt_engineer import generate, evaluate, config, template, data, llm
+from automatic_prompt_engineer import generate, evaluate, config, template, data, llm, evaluation
 
 
 def get_simple_prompt_gen_template(prompt_gen_template, prompt_gen_mode):
@@ -109,7 +109,9 @@ def find_prompts(eval_template,
                  conf,
                  base_conf='configs/default.yaml',
                  few_shot_data=None,
-                 prompt_gen_template=None):
+                 prompt_gen_template=None,
+                 flan=False,
+                 ):
     """
     Function to generate prompts using APE.
     Parameters:
@@ -148,6 +150,12 @@ def find_prompts(eval_template,
     print('Deduplicated to {} prompts.'.format(len(prompts)))
 
     print('Evaluating prompts...')
+
+    get_query_fn, logprob_fn = None, None
+    if flan:
+        import automatic_prompt_engineer.flan_singleton
+        logprob_fn = automatic_prompt_engineer.flan_singleton.FLAN_APE.log_probs
+        get_query_fn = evaluation.likelihood.get_query_encdec
 
     res = evaluate.evalute_prompts(prompts, eval_template, eval_data, demos_template, few_shot_data,
                                    conf['evaluation']['method'], conf['evaluation'])

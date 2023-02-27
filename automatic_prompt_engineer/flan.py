@@ -5,7 +5,7 @@ from tqdm.auto import tqdm
 
 from automatic_prompt_engineer import llm
 
-FLAN_NAME = 'google/flan-t5-large'
+FLAN_NAME = 'google/flan-t5-base'
 
 
 def no_init(loading_code):
@@ -74,7 +74,7 @@ class FlanForward(llm.LLM):
         model, tokenizer = load_flan(name)
         return FlanForward(model, tokenizer, bs, disable_tqdm)
 
-    def generate_text(self, prompts):
+    def generate_text(self, prompts, n):
         outs = []
         for i in range(0, len(prompts), self.bs):
             batch = prompts[i:i + self.bs]
