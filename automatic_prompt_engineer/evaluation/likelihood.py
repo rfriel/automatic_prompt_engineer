@@ -30,7 +30,30 @@ def get_query(prompt, eval_template, input_, output_, demo_data, demos_template)
     return query, output_idx
 
 
-def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_shot_data, config, verbose=False):
+def get_query_encdec(prompt, eval_template, input_, output_, demo_data, demos_template):
+    """
+    Returns the text sent to the LLM for likelihood evaluation.
+    Parameters:
+        prompt: The prompt.
+        eval_template: The template for the evaluation queries.
+        input_: The input.
+        output_: The output.
+    Returns:
+        The query for the LLM and the range of the output text in the form of (start_idx, end_idx).
+    """
+    demos = demos_template.fill(demo_data)
+    query_without_output = eval_template.fill(prompt=prompt,
+                                              input=input_,
+                                              output="",
+                                              full_demo=demos)
+
+    return query_without_output
+
+
+
+def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_shot_data, config, verbose=False,
+                         logprob_fn=None,
+                         get_query_fn=None):
     print('in likelihood_evaluator')
     """
     For each prompt, evaluate the likelihood of the data (output) given the prompt.
@@ -44,6 +67,7 @@ def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_
     """
     queries = []
     output_indices = []
+    outputs = []
     for prompt in prompts:
         subsampled_data = data.subsample_data(
             eval_data, config['num_samples'])
@@ -61,18 +85,22 @@ def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_
                 print(demo_data)
                 print()
 
-            query, output_idx = get_query(
+            get_query_ = get_query_fn if get_query_fn else get_query
+            query, output_idx = get_query_(
                 prompt, eval_template, input_, output_, demo_data, demos_template)
             queries.append(query)
             output_indices.append(output_idx)
+            outputs.append(output_)
 
             if verbose:
                 print(query)
 
     # Instantiate the LLM
-    model = llm.model_from_config(config['model'])
-
-    log_probs, _ = model.log_probs(queries, output_indices)
+    if logprob_fn:
+        log_probs = logprob_fn(queries, outputs)
+    else:
+        model = llm.model_from_config(config['model'])
+        log_probs, _ = model.log_probs(queries, output_indices)
 
     res = LikelihoodEvaluationResult(prompts, log_probs, config['num_samples'])
 
