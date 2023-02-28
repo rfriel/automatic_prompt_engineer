@@ -23,7 +23,7 @@ def bandits_evaluator(prompts, eval_template, eval_data, demos_template, few_sho
     print(f"bandits num prompts: {len(prompts)}")
     print(f"bandits num_prompts_per_round: {num_prompts_per_round}")
     print(f"bandits rounds: {rounds}")
-    for _ in tqdm(range(rounds), desc='Evaluating prompts'):
+    for i in tqdm(range(rounds), desc='Evaluating prompts'):
         # Sample the prompts
         sampled_prompts_idx = bandit_algo.choose(num_prompts_per_round)
         print(f"bandits sampled_prompts_idx: {sampled_prompts_idx}")
@@ -38,10 +38,10 @@ def bandits_evaluator(prompts, eval_template, eval_data, demos_template, few_sho
         callback_fn = config.get('callback_fn')
         if callback_fn is not None:
             res = BanditsEvaluationResult(prompts, bandit_algo.get_scores(), bandit_algo.get_infos())
-            callback_fn(res, rounds)
+            callback_fn(res, rounds, i+1)
 
     return BanditsEvaluationResult(prompts, bandit_algo.get_scores(), bandit_algo.get_infos()), \
-    eval_template, eval_data, demos_template, few_shot_data, config
+    eval_template, eval_data, demos_template, few_shot_data, config, i, rounds
 
 
 def get_bandit_algo(bandit_method, num_prompts, config):

@@ -85,7 +85,7 @@ automatic_prompt_engineer.flan.FlanForward.log_probs =log_probs
 automatic_prompt_engineer.flan.FlanForward._log_probs = _log_probs
 
 
-def callback_fn(res, rounds, done=False):
+def callback_fn(res, rounds, current_step, done=False):
     prompts, scores = res.sorted()
     scores = list(map(float, scores))
     out = dict(
@@ -95,6 +95,7 @@ def callback_fn(res, rounds, done=False):
 
     out['done'] = done
     out['num_steps'] = rounds
+    out['current_step'] = current_step
 
     with open('output.json', 'w') as f:
         json.dump(out, f)
@@ -173,7 +174,7 @@ def run(base_prompt, eval_data,):
     conf['evaluation']['base_eval_config']['num_samples'] = min(len(eval_data[0]), 1600)
 
     (res, eval_template, eval_data, demos_template, few_shot_data,
-     config), demo_fn = automatic_prompt_engineer.ape.find_prompts(
+     config, current_step, num_steps), demo_fn = automatic_prompt_engineer.ape.find_prompts(
         eval_template,
         demos_template,
         eval_data,
@@ -183,7 +184,7 @@ def run(base_prompt, eval_data,):
         prompt_gen_template=prompt_gen_template,
         flan=True
     )
-    return res
+    return res, current_step, num_steps
 
 
 def process_new_data(data):
@@ -194,9 +195,9 @@ def process_new_data(data):
         eval_data[0].append(row['x'])
         eval_data[1].append(row['y'])
 
-    res = run(base_prompt, eval_data)
+    res, current_step, num_steps = run(base_prompt, eval_data)
 
-    callback_fn(res,done=True)
+    callback_fn(res, current_step, num_steps, done=True)
 
 
 if __name__ == '__main__':
