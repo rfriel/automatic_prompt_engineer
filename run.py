@@ -150,9 +150,8 @@ def defaults():
     conf['generation']['num_demos'] = 5
     conf['evaluation']['base_eval_config']['num_samples'] = 256
 
-    conf['evaluation']['method'] = 'likelihood'
-
-    conf['evaluation'].update(conf['evaluation']['base_eval_config'])
+    # conf['evaluation']['method'] = 'likelihood'
+    # conf['evaluation'].update(conf['evaluation']['base_eval_config'])
 
     conf['evaluation']['callback_fn'] = callback_fn
 
