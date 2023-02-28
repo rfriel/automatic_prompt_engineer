@@ -48,7 +48,7 @@ def get_bandit_algo(bandit_method, num_prompts, config):
         A bandit method object.
     """
     if bandit_method == 'ucb':
-        return UCBBanditAlgo(num_prompts, config['base_eval_config']['num_samples'], config['bandit_config']['c'])
+        return SequentialBanditAlgo(num_prompts, config['base_eval_config']['num_samples'], config['bandit_config']['c'])
     else:
         raise ValueError('Invalid bandit method.')
 
@@ -170,6 +170,24 @@ class UCBBanditAlgo(CountAverageBanditAlgo):
         ucb_scores = scores + self.c * np.sqrt(np.log(np.sum(counts)) / counts)
         # Choose the prompts with the highest UCB scores
         return np.argsort(ucb_scores)[::-1][:n]
+
+    def get_infos(self):
+        return self.counts
+
+
+class SequentialBanditAlgo(CountAverageBanditAlgo):
+
+    def __init__(self, num_prompts, num_samples, c):
+        super().__init__(num_prompts, num_samples)
+        self.c = c
+        self.i = 0
+
+    def choose(self, n):
+        if self.i >= self.num_prompts:
+            self.i = 0
+        chosen = list(range(self.i, (self.i)+n))
+        self.i += n
+        return chosen
 
     def get_infos(self):
         return self.counts
