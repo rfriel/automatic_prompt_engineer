@@ -19,9 +19,13 @@ def bandits_evaluator(prompts, eval_template, eval_data, demos_template, few_sho
     else:
         num_prompts_per_round = config['num_prompts_per_round']
     num_prompts_per_round = min(num_prompts_per_round, len(prompts))
+    print(f"bandits num prompts: {len(prompts)}")
+    print(f"bandits num_prompts_per_round: {num_prompts_per_round}")
+    print(f"bandits rounds: {rounds}")
     for _ in tqdm(range(rounds), desc='Evaluating prompts'):
         # Sample the prompts
         sampled_prompts_idx = bandit_algo.choose(num_prompts_per_round)
+        print(f"bandits sampled_prompts_idx: {sampled_prompts_idx}")
         sampled_prompts = [prompts[i] for i in sampled_prompts_idx]
         # Evaluate the sampled prompts
         sampled_eval_results = base_eval_method(
