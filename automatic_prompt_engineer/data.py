@@ -5,11 +5,18 @@ def subsample_data(data, subsample_size):
     """
     Subsample data. Data is in the form of a tuple of lists.
     """
-    inputs, outputs = data
+    if len(data) == 3:
+        inputs, outputs, neg_outputs = data
+    else:
+        inputs, outputs = data
+        neg_outputs = None
     assert len(inputs) == len(outputs)
     indices = random.sample(range(len(inputs)), subsample_size)
     inputs = [inputs[i] for i in indices]
     outputs = [outputs[i] for i in indices]
+    if neg_outputs:
+        neg_outputs = [neg_outputs[i] for i in indices]
+        return inputs, outputs, neg_outputs
     return inputs, outputs
 
 
