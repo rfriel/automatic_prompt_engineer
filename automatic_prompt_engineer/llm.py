@@ -29,7 +29,7 @@ class LLM(ABC):
     """Abstract base class for large language models."""
 
     @abstractmethod
-    def generate_text(self, prompt):
+    def generate_text(self, prompt, n):
         """Generates text from the model.
         Parameters:
             prompt: The prompt to use. This can be a string or a list of strings.

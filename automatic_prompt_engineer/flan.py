@@ -76,9 +76,10 @@ class FlanForward(llm.LLM):
 
     def generate_text(self, prompts, n):
         outs = []
-        for i in range(0, len(prompts), self.bs):
-            batch = prompts[i:i + self.bs]
-            outs.extend(call_flan_t5(self.model, self.tokenizer, batch))
+        for _ in range(n):
+            for i in range(0, len(prompts), self.bs):
+                batch = prompts[i:i + self.bs]
+                outs.extend(call_flan_t5(self.model, self.tokenizer, batch))
         return outs
 
     def log_probs(self, text, output, log_prob_range=None, debug=False):
