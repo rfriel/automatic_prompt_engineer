@@ -63,14 +63,14 @@ def call_flan_t5(model, tokenizer, prompts, max_length=60, temperature=0.5, top_
 
 
 class FlanForward(llm.LLM):
-    def __init__(self, model, tokenizer, bs=32, disable_tqdm=False):
+    def __init__(self, model, tokenizer, bs=128, disable_tqdm=False):
         self.model = model
         self.tokenizer = tokenizer
         self.bs = bs
         self.disable_tqdm = disable_tqdm
 
     @staticmethod
-    def load(name='google/flan-t5-xl', bs=32, disable_tqdm=False):
+    def load(name='google/flan-t5-xl', bs=128, disable_tqdm=False):
         model, tokenizer = load_flan(name)
         return FlanForward(model, tokenizer, bs, disable_tqdm)
 
