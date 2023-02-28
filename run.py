@@ -2,6 +2,7 @@ import json, time
 import automatic_prompt_engineer.ape
 from automatic_prompt_engineer.flan import *
 import automatic_prompt_engineer.flan
+import automatic_prompt_engineer.flan_singleton
 
 def generate_text(self, prompts, n):
     for i in range(len(prompts)):
