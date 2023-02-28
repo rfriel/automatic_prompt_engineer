@@ -1,4 +1,4 @@
-import json
+import json, time
 import automatic_prompt_engineer.ape
 from automatic_prompt_engineer.flan import *
 import automatic_prompt_engineer.flan
@@ -159,10 +159,7 @@ def run(base_prompt, eval_data,):
     return res
 
 
-if __name__ == '__main__':
-    with open('input.json') as f:
-        data = json.load(f)
-
+def process_new_data(data):
     base_prompt = data['base_prompt']
 
     eval_data = ([], [])
@@ -183,4 +180,14 @@ if __name__ == '__main__':
         json.dump(out, f)
 
 
+if __name__ == '__main__':
+    while 1:
+        with open('input.json') as f:
+            data = json.load(f)
 
+        if len(data) > 0:
+            with open('input.json', 'w') as f:
+                json.dump({}, f)
+
+            process_new_data(data)
+        time.sleep(0.5)
