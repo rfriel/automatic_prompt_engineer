@@ -202,7 +202,7 @@ def process_new_data(data):
 
     num_prompts = data.get('num_prompts', 20)
     max_eval = data.get('max_eval', 32)
-    seed = data.get('seed', 345433)
+    seed = data.get('seed', 445433)
 
     res, current_step, num_steps = run(base_prompt, eval_data,
                                        num_prompts=num_prompts,
