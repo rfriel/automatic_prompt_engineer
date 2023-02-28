@@ -88,13 +88,15 @@ class FlanForward(llm.LLM):
                 outs.extend(call_flan_t5(self.model, self.tokenizer, batch))
         return outs
 
-    def log_probs(self, text, output, log_prob_range=None, debug=False):
+    def log_probs(self, text, output, neg_outputs=None, log_prob_range=None, debug=False):
         if not isinstance(text, list):
             text = [text]
         batch_size = self.bs
         text_batches = [text[i:i + batch_size]
                         for i in range(0, len(text), batch_size)]
         output_batches = [output[i:i + batch_size]
+                          for i in range(0, len(text), batch_size)]
+        neg_output_batches = [neg_outputs[i:i + batch_size]
                           for i in range(0, len(text), batch_size)]
         if log_prob_range is None:
             log_prob_range_batches = [None] * len(text)
@@ -108,13 +110,20 @@ class FlanForward(llm.LLM):
                 f"split into {len(text_batches)} batches of (maximum) size {batch_size}")
         log_probs = []
         tokens = []
-        for text_batch, output_batch, log_prob_range in tqdm(
-                list(zip(text_batches, output_batches, log_prob_range_batches)),
+        for text_batch, output_batch, neg_output_batch, log_prob_range in tqdm(
+                list(zip(text_batches, output_batches, neg_output_batches, log_prob_range_batches)),
                 disable=self.disable_tqdm):
             log_probs_batch, tokens_batch = self._log_probs(
                 text_batch, output_batch, log_prob_range, debug=debug)
             log_probs += log_probs_batch
             tokens += tokens_batch
+            for nego in neg_output_batch:
+                if nego is None:
+                    continue
+                nlog_probs_batch, _ = self._log_probs(
+                    text_batch, output_batch, log_prob_range, debug=debug)
+                log_probs -= nlog_probs_batch
+
         # return log_probs, tokens
         return log_probs
 

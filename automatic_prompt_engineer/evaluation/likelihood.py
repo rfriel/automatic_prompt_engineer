@@ -71,11 +71,16 @@ def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_
     queries = []
     output_indices = []
     outputs = []
+    neg_outputs = []
     for prompt in prompts:
         subsampled_data = data.subsample_data(
             eval_data, config['num_samples'])
         for d in zip(*subsampled_data):
-            input_, output_ = d
+            if len(d) == 3:
+                input_, output_, neg_outputs_ = d
+            else:
+                input_, output_ = d
+                neg_outputs_ = None
             demo_data = data.subsample_data(
                 few_shot_data, config['num_few_shot'])
 
@@ -90,17 +95,19 @@ def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_
 
             get_query_ = get_query_fn if get_query_fn else get_query
             query, output_idx = get_query_(
-                prompt, eval_template, input_, output_, demo_data, demos_template)
+                prompt, eval_template, input_, output_, demo_data, demos_template,
+            )
             queries.append(query)
             output_indices.append(output_idx)
             outputs.append(output_)
+            neg_outputs.append(neg_outputs_)
 
             if verbose:
                 print(query)
 
     # Instantiate the LLM
     if logprob_fn:
-        log_probs = logprob_fn(queries, outputs)
+        log_probs = logprob_fn(queries, outputs, neg_outputs=neg_outputs)
     else:
         model = llm.model_from_config(config['model'])
         log_probs, _ = model.log_probs(queries, output_indices)
