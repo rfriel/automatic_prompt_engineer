@@ -22,7 +22,7 @@ def log_probs(self, text, output, neg_outputs=None, log_prob_range=None, debug=F
     if not isinstance(text, list):
         text = [text]
     text = [s.lstrip() for s in text]
-    print(f"FlanForward log_probs received text={text} and output\n\t{output}")
+    # print(f"FlanForward log_probs received text={text} and output\n\t{output}")
     batch_size = self.bs
     text_batches = [text[i:i + batch_size]
                     for i in range(0, len(text), batch_size)]

@@ -149,11 +149,11 @@ def find_prompts(eval_template,
     prompts = generate.generate_prompts(
         prompt_gen_template, demos_template, prompt_gen_data, conf['generation'])
 
-    prompts += seed_prompts
-
-    print('Model + seed prompts: {} prompts. Deduplicating...'.format(len(prompts)))
+    print('Model prompts: {} prompts. Deduplicating...'.format(len(prompts)))
     prompts = list(set(prompts))
     print('Deduplicated to {} prompts.'.format(len(prompts)))
+    prompts = seed_prompts + prompts
+    print('With seed prompts: {} prompts.'.format(len(prompts)))
 
     print('Evaluating prompts...')
 
