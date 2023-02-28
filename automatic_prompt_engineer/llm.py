@@ -146,6 +146,7 @@ class GPT_Forward(LLM):
         return log_probs, tokens
 
     def __generate_text(self, prompt, n):
+        print('__generate_text')
         """Generates text from the model."""
         if not isinstance(prompt, list):
             text = [prompt]
