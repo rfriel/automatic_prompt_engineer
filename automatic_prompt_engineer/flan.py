@@ -80,6 +80,7 @@ class FlanForward(llm.LLM):
             if '[APE]' in p[:-len('[APE]')]:
                 raise ValueError(p)
             prompts[i] = p.replace('[APE]', '')
+        print(f"FlanForward received n={n} and prompts\n\t{prompts}")
         outs = []
         for _ in range(n):
             for i in range(0, len(prompts), self.bs):
