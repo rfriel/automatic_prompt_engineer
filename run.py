@@ -89,7 +89,7 @@ def callback_fn(res, rounds, current_step, done=False):
     # prompts, scores = res.sorted()
     prompts, scores = res.prompts, res.scores
     scores = list(map(float, scores))
-    
+
     prompts_, scores_ = res.sorted()
     out = dict(
         best_prompt=dict(prompt=prompts_[0], score=scores_[0]),
@@ -200,7 +200,7 @@ def process_new_data(data):
         eval_data[0].append(row['x'])
         eval_data[1].append(row['y'])
 
-    num_prompts = data.get('num_prompts', 40)
+    num_prompts = data.get('num_prompts', 20)
     max_eval = data.get('max_eval', 1600)
     seed = data.get('seed', 345433)
 
