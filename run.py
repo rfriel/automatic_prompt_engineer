@@ -123,7 +123,7 @@ def defaults():
         prompt_gen_model='text-davinci-002',
         # prompt_gen_model='text-curie-001',
         prompt_gen_mode='forward',
-        num_prompts=20,
+        num_prompts=100,
         eval_rounds=10,
         prompt_gen_batch_size=100,
         eval_batch_size=100)
@@ -132,7 +132,7 @@ def defaults():
     conf['generation']['model']['gpt_config']['temperature'] = 1.0
     conf['generation']['model']['gpt_config']['top_p'] = 0.95
     conf['generation']['num_demos'] = 2
-    conf['evaluation']['base_eval_config']['num_samples'] = 64
+    conf['evaluation']['base_eval_config']['num_samples'] = 256
 
     return eval_template, demos_template, prompt_gen_template, conf
 
