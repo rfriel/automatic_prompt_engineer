@@ -16,6 +16,7 @@ setup(
         'tqdm',
         'gradio',
         'transformers',
-        'accelerate'
+        'accelerate',
+        'datasets'
     ],
 )
