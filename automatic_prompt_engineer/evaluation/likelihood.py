@@ -65,7 +65,7 @@ def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_
     Returns:
         A LikelihoodEvaluationResult object.
     """
-    print(f"logprob_fn config['logprob_fn'] {config['logprob_fn']}")
+    print(f"logprob_fn config['logprob_fn'] {config.get('logprob_fn')}")
     logprob_fn = logprob_fn or config.get('logprob_fn')
     get_query_fn = get_query_fn or config.get('get_query_fn')
     queries = []
