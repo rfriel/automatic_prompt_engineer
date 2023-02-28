@@ -43,4 +43,5 @@ def generate_prompts(prompt_gen_template, demos_template, prompt_gen_data, confi
         model = llm.model_from_config(config['model'], disable_tqdm=False)
     prompts = model.generate_text(
         queries, n=config['num_prompts_per_subsample'])
+    prompts = [p.lstrip() for p in prompts]
     return prompts
