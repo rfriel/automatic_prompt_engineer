@@ -169,7 +169,7 @@ def defaults():
 def run(base_prompt, eval_data,):
     eval_template, demos_template, prompt_gen_template, conf = defaults()
 
-    conf['evaluation']['base_eval_config']['num_samples'] = min(len(eval_data)[0], 1600)
+    conf['evaluation']['base_eval_config']['num_samples'] = min(len(eval_data[0]), 1600)
 
     (res, eval_template, eval_data, demos_template, few_shot_data,
      config), demo_fn = automatic_prompt_engineer.ape.find_prompts(
