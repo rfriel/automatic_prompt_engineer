@@ -159,6 +159,7 @@ def defaults():
     conf['generation']['model']['gpt_config']['top_p'] = 0.95
     conf['generation']['num_demos'] = 2
     conf['evaluation']['num_prompts_per_round'] = 1
+    conf['rounds'] = num_prompts
 
     conf['evaluation']['callback_fn'] = callback_fn
 

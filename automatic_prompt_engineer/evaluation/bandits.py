@@ -19,6 +19,7 @@ def bandits_evaluator(prompts, eval_template, eval_data, demos_template, few_sho
     else:
         num_prompts_per_round = config['num_prompts_per_round']
     num_prompts_per_round = min(num_prompts_per_round, len(prompts))
+    rounds = min(rounds, len(prompts))
     print(f"bandits num prompts: {len(prompts)}")
     print(f"bandits num_prompts_per_round: {num_prompts_per_round}")
     print(f"bandits rounds: {rounds}")
