@@ -85,7 +85,7 @@ automatic_prompt_engineer.flan.FlanForward.log_probs =log_probs
 automatic_prompt_engineer.flan.FlanForward._log_probs = _log_probs
 
 
-def callback_fn(res, done=False):
+def callback_fn(res, rounds, done=False):
     prompts, scores = res.sorted()
     scores = list(map(float, scores))
     out = dict(
@@ -94,6 +94,7 @@ def callback_fn(res, done=False):
     )
 
     out['done'] = done
+    out['num_steps'] = rounds
 
     with open('output.json', 'w') as f:
         json.dump(out, f)

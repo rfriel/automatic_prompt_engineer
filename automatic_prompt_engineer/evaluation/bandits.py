@@ -38,7 +38,7 @@ def bandits_evaluator(prompts, eval_template, eval_data, demos_template, few_sho
         callback_fn = config.get('callback_fn')
         if callback_fn is not None:
             res = BanditsEvaluationResult(prompts, bandit_algo.get_scores(), bandit_algo.get_infos())
-            callback_fn(res)
+            callback_fn(res, rounds)
 
     return BanditsEvaluationResult(prompts, bandit_algo.get_scores(), bandit_algo.get_infos()), \
     eval_template, eval_data, demos_template, few_shot_data, config
