@@ -152,11 +152,12 @@ def find_prompts(eval_template,
 
     print('Evaluating prompts...')
 
-    get_query_fn, logprob_fn = None, None
+    conf['get_query_fn'] = None
+    conf['logprob_fn'] = None
     if flan:
         import automatic_prompt_engineer.flan_singleton
-        logprob_fn = automatic_prompt_engineer.flan_singleton.FLAN_APE.log_probs
-        get_query_fn = likelihood.get_query_encdec
+        conf['logprob_fn'] = automatic_prompt_engineer.flan_singleton.FLAN_APE.log_probs
+        conf['get_query_fn'] = likelihood.get_query_encdec
 
     res = evaluate.evalute_prompts(prompts, eval_template, eval_data, demos_template, few_shot_data,
                                    conf['evaluation']['method'], conf['evaluation'])
