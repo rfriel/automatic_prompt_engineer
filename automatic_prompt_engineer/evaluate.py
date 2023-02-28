@@ -67,7 +67,8 @@ def demo_function(eval_template, config):
             queries.append(query)
         outputs = model.generate_text(
             queries, n=1)
-        return [out.strip().split('\n')[0] for out in outputs]
+        return outputs
+        # return [out.strip().split('\n')[0] for out in outputs]
 
     return fn
 
