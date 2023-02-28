@@ -156,7 +156,7 @@ def find_prompts(eval_template,
 
     view_prompt = "Choose the answer that does not reflect the user's view."
 
-    prompts = prompts[:1] + [view_prompt] + prompts[1:]
+    prompts = prompts[:10] + [view_prompt] + prompts[10:]
     print('With seed prompts: {} prompts.'.format(len(prompts)))
 
     print('Evaluating prompts...')
