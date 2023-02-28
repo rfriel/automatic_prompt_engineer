@@ -90,7 +90,10 @@ def callback_fn(res, rounds, current_step, done=False):
     scores = list(map(float, scores))
     out = dict(
         best_prompt=dict(prompt=prompts[0], score=scores[0]),
-        all_prompts=[dict(prompt=p, score=s) for p, s in zip(prompts, scores)]
+        all_prompts=[
+            dict(prompt=p, score=s) for p, s in zip(prompts, scores)
+            if s > -900
+        ]
     )
 
     out['done'] = done
