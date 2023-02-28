@@ -86,7 +86,8 @@ automatic_prompt_engineer.flan.FlanForward._log_probs = _log_probs
 
 
 def callback_fn(res, rounds, current_step, done=False):
-    prompts, scores = res.sorted()
+    # prompts, scores = res.sorted()
+    prompts, scores = res.prompts, res.scores
     scores = list(map(float, scores))
     out = dict(
         best_prompt=dict(prompt=prompts[0], score=scores[0]),
