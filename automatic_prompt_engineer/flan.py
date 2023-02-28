@@ -5,7 +5,7 @@ from tqdm import tqdm
 
 from automatic_prompt_engineer import llm
 
-FLAN_NAME = 'google/flan-t5-base'
+FLAN_NAME = 'google/flan-t5-xl'
 
 
 def no_init(loading_code):
@@ -75,6 +75,11 @@ class FlanForward(llm.LLM):
         return FlanForward(model, tokenizer, bs, disable_tqdm)
 
     def generate_text(self, prompts, n):
+        for i in range(len(prompts)):
+            p = prompts[i]
+            if '[APE]' in p[:-len('[APE]')]:
+                raise ValueError(p)
+            prompts[i] = p.replace('[APE]', '')
         outs = []
         for _ in range(n):
             for i in range(0, len(prompts), self.bs):
