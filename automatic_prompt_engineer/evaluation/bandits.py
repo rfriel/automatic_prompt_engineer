@@ -189,7 +189,7 @@ class SequentialBanditAlgo(CountAverageBanditAlgo):
     def choose(self, n):
         if self.i >= self.num_prompts:
             self.i = 0
-        chosen = list(range(self.i, (self.i)+n))
+        chosen = list(range(self.i, min((self.i)+n, self.num_prompts) ))
         self.i += n
         return chosen
 

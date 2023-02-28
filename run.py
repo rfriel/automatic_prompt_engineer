@@ -139,7 +139,7 @@ def defaults():
         prompt_gen_model='text-davinci-002',
         # prompt_gen_model='text-curie-001',
         prompt_gen_mode='forward',
-        num_prompts=100,
+        num_prompts=200,
         eval_rounds=10,
         prompt_gen_batch_size=100,
         eval_batch_size=100)
