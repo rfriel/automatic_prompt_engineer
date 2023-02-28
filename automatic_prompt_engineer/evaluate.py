@@ -41,7 +41,7 @@ def evalute_prompts(prompts, eval_template, eval_data, demos_template, few_shot_
         An evaluation result object.
     """
     print(f"evalute_prompts eval_method {eval_method}")
-    print(f"evalute_prompts config['logprob_fn'] {config.get('logprob_fn')}")
+    print(f"evalute_prompts config['evaluation']['logprob_fn'] {config['evaluation'].get('logprob_fn')}")
     eval_method = get_eval_method(eval_method)
     print(f"evalute_prompts eval_method --> {eval_method}")
     return eval_method(prompts, eval_template, eval_data, demos_template, few_shot_data, config)
