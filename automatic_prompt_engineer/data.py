@@ -1,7 +1,7 @@
 import random
 
 
-def subsample_data(data, subsample_size):
+def subsample_data(data, subsample_size, seed=None):
     """
     Subsample data. Data is in the form of a tuple of lists.
     """
@@ -11,6 +11,8 @@ def subsample_data(data, subsample_size):
         inputs, outputs = data
         neg_outputs = None
     assert len(inputs) == len(outputs)
+    if seed is not None:
+        random.seed(seed)
     indices = random.sample(range(len(inputs)), subsample_size)
     inputs = [inputs[i] for i in indices]
     outputs = [outputs[i] for i in indices]

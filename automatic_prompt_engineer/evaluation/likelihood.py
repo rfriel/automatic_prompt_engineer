@@ -73,8 +73,9 @@ def likelihood_evaluator(prompts, eval_template, eval_data, demos_template, few_
     outputs = []
     neg_outputs = []
     for prompt in prompts:
+        print(f"likelihood using seed {config.get('sampling_seed')}")
         subsampled_data = data.subsample_data(
-            eval_data, config['num_samples'])
+            eval_data, config['num_samples'], seed=config.get('sampling_seed'))
         for d in zip(*subsampled_data):
             if len(d) == 3:
                 input_, output_, neg_outputs_ = d

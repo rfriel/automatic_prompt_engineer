@@ -166,10 +166,11 @@ def defaults(num_prompts=40):
     return eval_template, demos_template, prompt_gen_template, conf
 
 
-def run(base_prompt, eval_data, num_prompts=40, max_eval=1600):
+def run(base_prompt, eval_data, num_prompts=40, max_eval=1600, seed=345433):
     eval_template, demos_template, prompt_gen_template, conf = defaults(num_prompts=num_prompts)
 
     conf['evaluation']['base_eval_config']['num_samples'] = min(len(eval_data[0]), max_eval)
+    conf['evaluation']['base_eval_config']['sampling_seed'] = seed
 
     (res, eval_template, eval_data, demos_template, few_shot_data,
      config, current_step, num_steps), demo_fn = automatic_prompt_engineer.ape.find_prompts(
@@ -195,10 +196,12 @@ def process_new_data(data):
 
     num_prompts = data.get('num_prompts', 40)
     max_eval = data.get('max_eval', 1600)
+    seed = data.get('seed', 345433)
 
-    res, current_step, num_steps = run(base_prompt, eval_data, 
+    res, current_step, num_steps = run(base_prompt, eval_data,
                                        num_prompts=num_prompts,
-                                       max_eval=max_eval)
+                                       max_eval=max_eval,
+                                       seed=seed)
 
     callback_fn(res, current_step, num_steps, done=True)
 
