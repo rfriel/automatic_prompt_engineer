@@ -89,8 +89,10 @@ def callback_fn(res, rounds, current_step, done=False):
     # prompts, scores = res.sorted()
     prompts, scores = res.prompts, res.scores
     scores = list(map(float, scores))
+    
+    prompts_, scores_ = res.sorted()
     out = dict(
-        best_prompt=dict(prompt=prompts[0], score=scores[0]),
+        best_prompt=dict(prompt=prompts_[0], score=scores_[0]),
         all_prompts=[
             dict(prompt=p, score=s) for p, s in zip(prompts, scores)
             if s > -900
