@@ -102,7 +102,7 @@ def callback_fn(res, rounds, current_step, done=False):
 
 
 
-def defaults():
+def defaults(num_prompts=40):
     eval_template = \
         """[PROMPT]
     
@@ -146,8 +146,6 @@ def defaults():
 
     import automatic_prompt_engineer.config
 
-    num_prompts = 40
-
     conf = automatic_prompt_engineer.config.simple_config(
         eval_model='',
         prompt_gen_model='text-davinci-002',
@@ -168,10 +166,10 @@ def defaults():
     return eval_template, demos_template, prompt_gen_template, conf
 
 
-def run(base_prompt, eval_data,):
-    eval_template, demos_template, prompt_gen_template, conf = defaults()
+def run(base_prompt, eval_data, num_prompts=40, max_eval=1600):
+    eval_template, demos_template, prompt_gen_template, conf = defaults(num_prompts=num_prompts)
 
-    conf['evaluation']['base_eval_config']['num_samples'] = min(len(eval_data[0]), 1600)
+    conf['evaluation']['base_eval_config']['num_samples'] = min(len(eval_data[0]), max_eval)
 
     (res, eval_template, eval_data, demos_template, few_shot_data,
      config, current_step, num_steps), demo_fn = automatic_prompt_engineer.ape.find_prompts(
@@ -195,7 +193,12 @@ def process_new_data(data):
         eval_data[0].append(row['x'])
         eval_data[1].append(row['y'])
 
-    res, current_step, num_steps = run(base_prompt, eval_data)
+    num_prompts = data.get('num_prompts', 40)
+    max_eval = data.get('max_eval', 1600)
+
+    res, current_step, num_steps = run(base_prompt, eval_data, 
+                                       num_prompts=num_prompts,
+                                       max_eval=max_eval)
 
     callback_fn(res, current_step, num_steps, done=True)
 
