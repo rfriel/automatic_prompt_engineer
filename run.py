@@ -1,4 +1,5 @@
 import json
+import automatic_prompt_engineer.ape
 from automatic_prompt_engineer.flan import *
 import automatic_prompt_engineer.flan
 
