@@ -108,6 +108,7 @@ def find_prompts(eval_template,
                  prompt_gen_data,
                  eval_data,
                  conf,
+                 seed_prompts=None,
                  base_conf='configs/default.yaml',
                  few_shot_data=None,
                  prompt_gen_template=None,
@@ -129,6 +130,8 @@ def find_prompts(eval_template,
         An evaluation result. Also returns a function to evaluate the prompts with new inputs.
     """
 
+    seed_prompts = seed_prompts or []
+
     conf = config.update_config(conf, base_conf)
 
     # Generate prompts
@@ -146,7 +149,9 @@ def find_prompts(eval_template,
     prompts = generate.generate_prompts(
         prompt_gen_template, demos_template, prompt_gen_data, conf['generation'])
 
-    print('Model returned {} prompts. Deduplicating...'.format(len(prompts)))
+    prompts += seed_prompts
+
+    print('Model + seed prompts: {} prompts. Deduplicating...'.format(len(prompts)))
     prompts = list(set(prompts))
     print('Deduplicated to {} prompts.'.format(len(prompts)))
 
