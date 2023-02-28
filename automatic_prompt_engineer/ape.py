@@ -153,6 +153,10 @@ def find_prompts(eval_template,
     prompts = list(set(prompts))
     print('Deduplicated to {} prompts.'.format(len(prompts)))
     prompts = seed_prompts + prompts
+
+    view_prompt = "Choose the answer that does not reflect the user's view."
+
+    prompts = prompts[:1] + [view_prompt] + prompts[1:]
     print('With seed prompts: {} prompts.'.format(len(prompts)))
 
     print('Evaluating prompts...')
