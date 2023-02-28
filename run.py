@@ -209,7 +209,7 @@ def process_new_data(data):
                                        max_eval=max_eval,
                                        seed=seed)
 
-    callback_fn(res, current_step, num_steps, done=True)
+    # callback_fn(res, current_step, num_steps, done=True)
 
 
 if __name__ == '__main__':
