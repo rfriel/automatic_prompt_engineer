@@ -152,8 +152,8 @@ class CountAverageBanditAlgo(BatchBanditAlgo):
             self.scores[i] += score * self.num_samples
 
     def reset(self):
-        self.counts = np.zeros(self.num_prompts)
-        self.scores = np.zeros(self.num_prompts)
+        self.counts = -1000. * np.ones(self.num_prompts)
+        self.scores = -1000. * np.ones(self.num_prompts)
 
     def get_scores(self):
         # Some counts may be 0, so we need to avoid division by 0.
