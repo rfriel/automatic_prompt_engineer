@@ -102,11 +102,13 @@ def callback_fn(res, done=False):
 
 def defaults():
     eval_template = \
-    """[PROMPT]
-
-    [INPUT]
-
-    [OUTPUT]"""
+        """[PROMPT]
+    
+        [full_DEMO]
+    
+        [INPUT]
+    
+        [OUTPUT]"""
 
     demos_template = '''
     [INPUT]
@@ -124,6 +126,14 @@ def defaults():
 
     Output: 6
 
+    Input: 10
+
+    Output: 11
+
+    Input: 15
+
+    Output: 16
+
     Instruction: Add 1 to the following number.
 
     This is a list of inputs and outputs. What instruction is being followed?
@@ -133,16 +143,6 @@ def defaults():
     Instruction: [APE]"""
 
     import automatic_prompt_engineer.config
-
-    conf = automatic_prompt_engineer.config.simple_config(
-        eval_model='',
-        prompt_gen_model='text-davinci-002',
-        # prompt_gen_model='text-curie-001',
-        prompt_gen_mode='forward',
-        num_prompts=200,
-        eval_rounds=10,
-        prompt_gen_batch_size=100,
-        eval_batch_size=100)
 
     num_prompts = 200
 
@@ -157,7 +157,7 @@ def defaults():
 
     conf['generation']['model']['gpt_config']['temperature'] = 1.0
     conf['generation']['model']['gpt_config']['top_p'] = 0.95
-    conf['generation']['num_demos'] = 2
+    conf['generation']['num_demos'] = 4
     conf['evaluation']['num_prompts_per_round'] = 1
     conf['rounds'] = num_prompts
 
