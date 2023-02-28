@@ -1,5 +1,6 @@
 import random
-from automatic_prompt_engineer import generate, evaluate, config, template, data, llm, evaluation
+from automatic_prompt_engineer import generate, evaluate, config, template, data, llm
+from automatic_prompt_engineer.evaluation import likelihood
 
 
 def get_simple_prompt_gen_template(prompt_gen_template, prompt_gen_mode):
@@ -155,7 +156,7 @@ def find_prompts(eval_template,
     if flan:
         import automatic_prompt_engineer.flan_singleton
         logprob_fn = automatic_prompt_engineer.flan_singleton.FLAN_APE.log_probs
-        get_query_fn = evaluation.likelihood.get_query_encdec
+        get_query_fn = likelihood.get_query_encdec
 
     res = evaluate.evalute_prompts(prompts, eval_template, eval_data, demos_template, few_shot_data,
                                    conf['evaluation']['method'], conf['evaluation'])
