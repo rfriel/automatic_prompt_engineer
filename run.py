@@ -84,6 +84,21 @@ automatic_prompt_engineer.flan.FlanForward.log_probs =log_probs
 automatic_prompt_engineer.flan.FlanForward._log_probs = _log_probs
 
 
+def callback_fn(res, done=False):
+    prompts, scores = res.sorted()
+    scores = list(map(float, scores))
+    out = dict(
+        best_prompt=dict(prompt=prompts[0], score=scores[0]),
+        all_prompts=[dict(prompt=p, score=s) for p, s in zip(prompts, scores)]
+    )
+
+    out['done'] = done
+
+    with open('output.json', 'w') as f:
+        json.dump(out, f)
+
+
+
 def defaults():
     eval_template = \
     """[PROMPT]
@@ -134,6 +149,8 @@ def defaults():
     conf['generation']['num_demos'] = 2
     conf['evaluation']['base_eval_config']['num_samples'] = 256
 
+    conf['evaluation']['callback_fn'] = callback_fn
+
     return eval_template, demos_template, prompt_gen_template, conf
 
 
@@ -169,15 +186,7 @@ def process_new_data(data):
 
     res = run(base_prompt, eval_data)
 
-    prompts, scores = res.sorted()
-    scores = list(map(float, scores))
-    out = dict(
-        best_prompt=dict(prompt=prompts[0], score=scores[0]),
-        all_prompts=[dict(prompt=p, score=s) for p, s in zip(prompts, scores)]
-    )
-
-    with open('output.json', 'w') as f:
-        json.dump(out, f)
+    callback_fn(res,done=True)
 
 
 if __name__ == '__main__':
