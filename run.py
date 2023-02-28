@@ -146,9 +146,13 @@ def defaults():
 
     # conf['generation']['model'] = 'flan-t5'
     conf['generation']['model']['gpt_config']['temperature'] = 1.0
-    conf['generation']['model']['gpt_config']['top_p'] = 0.95
-    conf['generation']['num_demos'] = 2
+    conf['generation']['model']['gpt_config']['top_p'] = 1.0
+    conf['generation']['num_demos'] = 5
     conf['evaluation']['base_eval_config']['num_samples'] = 256
+
+    conf['evaluation']['method'] = 'likelihood'
+
+    conf['evaluation'].update(conf['evaluation']['base_eval_config'])
 
     conf['evaluation']['callback_fn'] = callback_fn
 
@@ -158,10 +162,11 @@ def defaults():
 def run(base_prompt, eval_data,):
     eval_template, demos_template, prompt_gen_template, conf = defaults()
 
-    conf['evaluation']['base_eval_config']['num_samples'] = min(
-        conf['evaluation']['base_eval_config']['num_samples'],
-        len(eval_data)
-    )
+    conf['evaluation']['num_samples'] = min(len(eval_data), 1600)
+    # conf['evaluation']['base_eval_config']['num_samples'] = min(
+    #     conf['evaluation']['base_eval_config']['num_samples'],
+    #     len(eval_data)
+    # )
 
     (res, eval_template, eval_data, demos_template, few_shot_data,
      config), demo_fn = automatic_prompt_engineer.ape.find_prompts(
