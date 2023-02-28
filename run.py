@@ -144,7 +144,7 @@ def defaults():
 
     import automatic_prompt_engineer.config
 
-    num_prompts = 200
+    num_prompts = 40
 
     conf = automatic_prompt_engineer.config.simple_config(
         eval_model='',
