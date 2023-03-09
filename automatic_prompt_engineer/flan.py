@@ -29,7 +29,7 @@ def load_flan(name=FLAN_NAME):
     def load_model():
         tokenizer = AutoTokenizer.from_pretrained(name)
 
-        model = AutoModelForSeq2SeqLM.from_pretrained(name, torch_dtype=torch.float16)
+        model = AutoModelForSeq2SeqLM.from_pretrained(name)
         model.cuda()
         model.requires_grad_(False)
         return model, tokenizer
